@@ -1,0 +1,115 @@
+1. 巡线时只用到左边探头，会在左边两个探头状态见切换并抖动
+   正常巡线1-5圈
+void Eight_LineTrack(uint8_t sensor_state_8)
+{
+		    // 标准循线逻辑
+    switch(sensor_state_8) {
+        case 4: //直走
+		case 5: //直走
+        {
+            Car_Go(150.0f,150.0f);
+            Motor_Control_Task();
+            lc_printf("go straight\r\n");
+            break;
+        }    
+        case 3: // 左微调
+            Car_Go(147.0f,152.0f);
+            Motor_Control_Task();
+            lc_printf("go straight\r\n");
+            break;
+            
+        case 6: //右微调
+            Car_Go(152.0f,147.0f);
+            Motor_Control_Task();
+            lc_printf("go straight\r\n");
+            break;
+            
+        case 2: //左大弯
+            Car_Go(145.0f,155.0f);
+            Motor_Control_Task();
+            lc_printf("go straight\r\n");
+            break;
+		case 1: // 左大大弯
+            Car_Go(157.0f,142.0f);
+            Motor_Control_Task();
+            lc_printf("go straight\r\n");
+            break;
+            
+        case 7: //右大弯 
+            Car_Go(155.0f,145.0f);
+            Motor_Control_Task();
+            lc_printf("go straight\r\n");
+            break;
+		case 8: //右大大弯
+            Car_Go(142.0f,157.0f);
+            Motor_Control_Task();
+            lc_printf("go straight\r\n");
+            break;
+            
+        case 10:  // 十字、T字路口
+        {
+            Cross_Counter++;
+            if(Cross_Counter <= 4*taking_N)
+            {
+                
+                // Car_Stop();
+                // while(Turn_Time < 20)
+                // {
+                //     if(casee_change())
+                //     {
+                //         Motor_Control_Task();
+                //         Turn_Time++;
+                //     }          
+                // }
+                Turn_Time = 0;
+                Car_Go(0.0f,100.0f);
+                while(Turn_Time < 80){
+                    if(casee_change())
+                    {
+                        Motor_Control_Task();
+                        Turn_Time++;
+                    }
+                }
+                Turn_Time = 0;
+                NO_Cross_time = HAL_GetTick;
+                lc_printf("cross road detected -->> turn left\r\n");
+            }
+            else {  //任务结束
+                Car_Stop_Precise();
+                while(1){
+                    if(casee_change())
+                    {
+                        Motor_Control_Task();
+                    }
+                }
+            }
+        }
+        break;
+        case 0:  // 丢线
+            if(last_state_main == 1) //左丢线
+            {
+                Car_Go(170.0f,130.0f);
+                Motor_Control_Task();
+                break;
+            }
+            if(last_state_main == 8) // 右丢线
+            {
+                Car_Go(130.0f,170.0f);
+                Motor_Control_Task();
+                break;
+            }
+            if(last_state_main == 10)
+            {
+                Car_Go(120.0f,180.0f);
+                Motor_Control_Task();
+                break;               
+            }
+            break;
+						
+        default:
+            Car_Go(150.0f,150.0f);
+            Motor_Control_Task();
+            break;
+    }
+    last_state_main = sensor_state_8;
+}

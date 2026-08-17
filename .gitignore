@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.pt
+.idea/
+.vscode/
+
+# Keil / embedded build output
+Debug/
+Release/
+Objects/
+Listings/
+Drivers/
+RTE/
+*.o
+*.obj
+*.d
+*.crf
+*.lst
+*.map
+*.out
+*.uvguix.*
+
+# clangd local index
+.clangd/.cache/
