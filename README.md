@@ -1,5 +1,15 @@
 # 25ec-Ecar
 25年电赛E题
+
+## 仓库结构
+
+- `firmware/stm32-d36a/`：STM32F407 / D36A 主控工程（STM32CubeMX + Keil）。
+- `firmware/mspm0-motor-track/`：MSPM0G3507 电机与循迹工程（Code Composer Studio）。
+- `raspberry-pi/`：树莓派视觉、串口通信与滤波代码。
+
+原仓库中的三个压缩包已解压并按上述模块整理。仓库只保留项目代码、工程配置和必要资源；未提交 STM32Cube 自带的 CMSIS/HAL 官方驱动、模型权重、运行截图，也排除了 Keil、CCS 和 clangd 产生的编译结果与本机缓存。STM32 工程可通过 `D36A.ioc` 在 STM32CubeMX 中重新生成官方驱动。
+
+## 项目复盘
 这里主要做一点点经验分享，更多的讲一下我们的教训吧。
 
 今年的题目说实话还算是比较简单的，按我们准备一个月的话应该是可以应付的，但是现在结果确实是做的很差，对此也是做一点反思。
